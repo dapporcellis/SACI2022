@@ -1,9 +1,39 @@
+const Inscrito = require("../model/usuario")
+const bcrypt = require("bcrypt")
+
 async function index(req, res) {
     res.render('pages/index')
 }
 
 async function cadastro(req, res) {
-    res.render('pages/cadastro')
+    res.render('pages/cadastro',{msg:req.flash('msg')})
+}
+
+async function cadastrar(req, res) {
+
+    const salt = bcrypt.genSaltSync(10);
+    const senha = bcrypt.hashSync(req.body.senha, salt);
+
+    const inscrito = new Inscrito({
+        nome: req.body.nome,
+        telefone: req.body.telefone,
+        email: req.body.email,
+        senha: senha
+    })
+    await inscrito.save(function (err, result) {
+        if(err){
+            if (err.message.indexOf("duplicate")!=-1) {
+                req.flash('msg', "Você já cadastrou o Email")
+                res.redirect('/cadastro')
+            }else if(err){
+                req.flash('msg', "Erro interno, tente novamente mais tarde.")
+                res.redirect('/cadastro')
+            }
+        }else{
+            req.flash('ok', "Cadastrado com sucesso.")
+            res.redirect('/inscricao')
+        }
+    })    
 }
 
 async function contato(req, res) {
@@ -16,10 +46,6 @@ async function fotos(req, res) {
 
 async function local(req, res) {
     res.render('pages/local')
-}
-
-async function login(req, res) {
-    res.render('pages/login')
 }
 
 async function noticias(req, res) {
@@ -39,7 +65,7 @@ async function sobre(req, res) {
 }
 
 async function inscricao(req, res) {
-    res.render('pages/inscricao')
+    res.render('pages/inscricao', {'msg': req.flash('msg'), 'msgok': req.flash('msgok')})
 }
 
 module.exports = {
@@ -49,9 +75,9 @@ module.exports = {
     programacao,
     organizacao,
     noticias,
-    login,
     local,
     fotos,
     contato,
-    cadastro
+    cadastro,
+    cadastrar
 }

@@ -5,31 +5,41 @@
                 <div class="col-lg-6 my-4">
 
                         <h3 class="text-center">Você já esta inscrito?</h3>
-                        <form>
+                        <form method="post">
                                 <div class="form-group">
                                         <label for="iEmail">Email</label>
-                                        <input type="email" class="form-control" id="iEmail"
+                                        <input type="email" name="username" class="form-control" id="iEmail"
                                                 aria-describedby="emailHelp" placeholder="Coloque seu email.">
                                         <small id="emailHelp" class="form-text text-muted">Nunca compartilhe seu login e
                                                 senha.</small>
                                 </div>
                                 <div class="form-group">
                                         <label for="iSenha">Senha</label>
-                                        <input type="password" class="form-control" id="iSenha"
+                                        <input type="password" name="password" class="form-control" id="iSenha"
                                                 placeholder="Coloque sua senha.">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Entrar</button>
                         </form>
+                        <% if(typeof msg !== "undefined"){ %>
+                        <div class="alert alert-danger mt-2 py-2" role="alert">
+                                <%=msg%>
+                        </div>
+                        <% } %>
+                        <% if(typeof msgok !== "undefined"){ %>
+                        <div class="alert alert-primary mt-2 py-2" role="alert">
+                                <%=msgok%>
+                        </div>
+                        <% } %>
 
                 </div>
                 <div class="col-lg-6 my-4">
                         <h3 class="text-center">Cadastre-se</h3>
                         <p>Se você ainda não é inscrito pode se cadastrar clicando no botão abaixo:</p>
-                        
-                                        <a href="/cadastro" class="btn btn-primary btn-lg text-center">Cadastre-se</a>
-                                
-                 
-                        
+
+                        <a href="/cadastro" class="btn btn-primary btn-lg text-center">Cadastre-se</a>
+
+
+
                 </div>
         </div>
 </div>

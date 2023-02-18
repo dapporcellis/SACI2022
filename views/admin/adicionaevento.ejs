@@ -1,0 +1,22 @@
+<%-include('../cabecalhoadmin.ejs')%>
+<div class="container py-5 text-justify">
+    <h1 class="py-2 text-center">Adicionar Evento</h1>
+    <form>
+        <div class="form-group">
+            <label for="inputnome">Nome</label>
+            <input type="text" name="nome" class="form-control" id="inputnome" placeholder="Digite seu nome.">
+        </div>
+        <div class="form-group">
+            <label for="inputemail">Email</label>
+            <input type="email" name="email" class="form-control" id="inputemail"
+                placeholder="Digite o seu email no formato: email@email.com">
+        </div>
+
+        <div class="form-group">
+            <label for="inputtexto">Comentário</label>
+            <textarea class="form-control" name="texto" id="inputtexto" rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Enviar</button>
+    </form>
+</div>
+<%-include('../rodapeadmin.ejs')%>
