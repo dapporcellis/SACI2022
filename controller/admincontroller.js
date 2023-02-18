@@ -1,68 +1,197 @@
+const Evento = require('../model/evento')
+const Oficina = require('../model/oficina')
+const Usuario = require('../model/usuario')
+
 async function login(req, res) {
-    res.render('admin/login', {Usuario:req.user})
+    const eventos = await Evento.find({ inscritos: { $in: [req.user.id] }, ativo: true });
+    console.log(eventos.length)
+    const oficinas = await Oficina.find({ inscritos: { $in: [req.user.id] }, ativo: true });
+    res.render('admin/login', {
+        Usuario: req.user,
+        Eventos: eventos,
+        Oficinas: oficinas
+    })
 }
 
 async function logout(req, res) {
-    req.logout(function(err) {
-        req.flash('msgok', "Você saiu do sistema com sucesso.")    
+    req.logout(function (err) {
+        req.flash('msgok', "Você saiu do sistema com sucesso.")
         res.redirect('/inscricao')
     });
 }
-
-async function adicionafotos(req, res) {
-    res.render('admin/adicionafotos', {Usuario:req.user})
+//EVENTO
+async function adicionaevento(req, res) {
+    res.render('admin/adicionaevento', {
+        Usuario: req.user
+    })
 }
 
-async function listafotos(req, res) {
-    res.render('admin/listafotos', {Usuario:req.user})
-}
 
-async function adicionanoticias(req, res) {
-    res.render('admin/adicionanoticias', {Usuario:req.user})
-}
-
-async function listanoticias(req, res) {
-    res.render('admin/listanoticias', {Usuario:req.user})
-}
-
-async function adicionaoficinas(req, res) {
-    res.render('admin/adicionaoficinas', {Usuario:req.user})
-}
-
-async function listaoficinas(req, res) {
-    res.render('admin/listaoficinas', {Usuario:req.user})
+async function adicionaevento1(req, res) {
+    const evento = await Evento.create({
+        nome: req.body.nome,
+        data: req.body.data,
+    })
+    req.flash('ok', 'Evento adicionado com sucesso')
+    res.redirect('/listaevento')
 }
 
 async function listaevento(req, res) {
-    res.render('admin/listaevento', {Usuario:req.user})
+    const eventos = await Evento.find({})
+    res.render('admin/listaevento', {
+        Usuario: req.user,
+        Eventos: eventos,
+        msg: req.flash('msg'),
+        msgok: req.flash('ok')
+    });
 }
 
-async function adicionaevento(req, res) {
-    res.render('admin/adicionaevento', {Usuario:req.user})
+async function deletaevento(req, res) {
+    await Evento.findByIdAndDelete(req.params.id, function (err, evento) {
+        req.flash('ok', 'Evento deletado com sucesso')
+        res.redirect('/listaevento')
+    })
+}
+
+//OFICINA
+
+async function adicionaoficinas(req, res) {
+    res.render('admin/adicionaoficinas', {
+        Usuario: req.user
+    })
+}
+
+async function adicionaoficinas1(req, res) {
+    const oficina = await Oficina.create(req.body)
+    req.flash('ok', 'Oficina adicionado com sucesso')
+    res.redirect('/listaoficinas')
+}
+
+async function listaoficinas(req, res) {
+    const oficinas = await Oficina.find({})
+    res.render('admin/listaoficinas', {
+        Usuario: req.user,
+        Oficinas: oficinas,
+        msg: req.flash('msg'),
+        msgok: req.flash('ok')
+    });
+}
+
+async function deletaoficinas(req, res) {
+    await Oficina.findByIdAndDelete(req.params.id, function (err, oficina) {
+        req.flash('ok', 'Oficina deletado com sucesso')
+        res.redirect('/listaoficinas')
+    })
+}
+
+//NOTICIA
+
+
+async function adicionafotos(req, res) {
+    res.render('admin/adicionafotos', {
+        Usuario: req.user
+    })
+}
+
+async function adicionafotos1(req, res) {
+    res.render('admin/adicionafotos', {
+        Usuario: req.user
+    })
+}
+
+async function listafotos(req, res) {
+    res.render('admin/listafotos', {
+        Usuario: req.user
+    })
+}
+
+async function deletafotos(req, res) {
+    res.render('admin/listafotos', {
+        Usuario: req.user
+    })
+}
+
+async function adicionanoticias(req, res) {
+    res.render('admin/adicionanoticias', {
+        Usuario: req.user
+    })
+}
+
+async function adicionanoticias1(req, res) {
+    res.render('admin/adicionanoticias', {
+        Usuario: req.user
+    })
+}
+
+async function listanoticias(req, res) {
+    res.render('admin/listanoticias', {
+        Usuario: req.user
+    })
+}
+
+async function deletanoticias(req, res) {
+    res.render('admin/listanoticias', {
+        Usuario: req.user
+    })
 }
 
 async function certificados(req, res) {
-    res.render('admin/certificados', {Usuario:req.user})
+    res.render('admin/certificados', {
+        Usuario: req.user
+    })
 }
 async function oficinas(req, res) {
-    res.render('admin/oficinas', {Usuario:req.user})
+    res.render('admin/oficinas', {
+        Usuario: req.user
+    })
 }
 async function evento(req, res) {
-    res.render('admin/evento', {Usuario:req.user})
+    const eventos = await Evento.find({ inscritos: { $in: [req.user.id] } , ativo: true});
+    const eventos1 = await Evento.find({ ativo: true});
+    res.render('admin/evento', {
+        Usuario: req.user,
+        MeusEventos: eventos,
+        Eventos: eventos1
+    })
+}
+
+async function inscrever(req, res) {
+    const evento = await Evento.findById(req.body.evento);
+    const usuario = await Usuario.findById(req.user.id);
+
+    // Adiciona o usuário ao array de inscritos do evento
+    evento.inscritos.push(usuario);
+    await evento.save();
+
+    // Adiciona o evento ao array de eventos inscritos do usuário
+    usuario.eventos.push(evento);
+    await usuario.save();
+
+    req.flash('msgok','Parabens! Você esta inscrito no evento')
+    res.redirect('/evento');
 }
 
 
 module.exports = {
+    inscrever,
     login,
     logout,
     adicionafotos,
+    adicionafotos1,
+    deletafotos,
     listafotos,
     adicionanoticias,
+    adicionanoticias1,
+    deletanoticias,
     listanoticias,
     adicionaoficinas,
+    adicionaoficinas1,
+    deletaoficinas,
     listaoficinas,
     listaevento,
     adicionaevento,
+    adicionaevento1,
+    deletaevento,
     certificados,
     oficinas,
     evento

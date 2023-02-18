@@ -5,7 +5,11 @@ const inscritoSchema = new mongoose.Schema({
     email: {type:String,required:true, unique:true},
     senha: {type:String,required:true},
     telefone: {type:String,required:true},
-    admin: {type:Boolean,default:false}
+    admin: {type:Boolean,default:false},
+    eventos:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'evento'
+    }],
 });
 
 const inscrito = mongoose.model('inscrito', inscritoSchema);

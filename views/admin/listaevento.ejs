@@ -2,29 +2,61 @@
 <div class="container py-5 text-justify">
         <h1 class="py-2 text-center">Lista de Eventos</h1>
 
+
         <table class="table">
                 <thead class="thead-dark">
-                        <th colspan="2">Segunda-feira, 13 de Março de 2023.</th>
+                        <th>Nome</th>
+                        <th>Data</th>
+                        <th>Ativo</th>
+                        <th>Inscritos</th>
+                        <th>Deletar</th>
                 </thead>
-                <thead class="thead-light">
-                        <th colspan="2">Manhã</th>
-                </thead>
+
                 <tbody>
+                        <%Eventos.forEach((evento)=>{%>
                         <tr>
-                                <td>07:45h - 08:00h</td>
-                                <td>Credenciamento</td>
+                                <td><%=evento.nome%></td>
+                                <td><%=moment(evento.data).format('DD/MM/YYYY') %></td>
+                                <td>
+                                        <%if(evento.ativo){%>
+                                                <span class="material-symbols-outlined">
+                                                        done
+                                                </span>
+                                        <%}else{%>
+                                                <span class="material-symbols-outlined">
+                                                        dangerous
+                                                </span>                                        
+                                        <%}%>                                
+                                </td>
+                                <td>
+                                        <a href="/listarinscritos/<%=evento._id%>">
+                                                <span class="material-symbols-outlined">
+                                                        list_alt
+                                                </span>
+                                        </a>
+                                </td>
+                                <td>
+                                        <a href="/deletaevento/<%=evento._id%>">
+                                                <span class="material-symbols-outlined">
+                                                        delete
+                                                </span>
+                                        </a>
+                                </td>
                         </tr>
-                </tbody>
-                <thead class="thead-light">
-                        <th colspan="2">Tarde</th>
-                </thead>
-                <tbody>
-                        <tr>
-                                <td>07:45h - 08:00h</td>
-                                <td>Credenciamento</td>
-                        </tr>
+                        <%})%>
                 </tbody>
         </table>
+
+        <% if(typeof msg !== "undefined"){ %>
+        <div class="alert alert-danger mt-2 py-2" role="alert">
+                <%=msg%>
+        </div>
+        <% } %>
+        <% if(typeof msgok !== "undefined"){ %>
+        <div class="alert alert-primary mt-2 py-2" role="alert">
+                <%=msgok%>
+        </div>
+        <% } %>
 
 </div>
 <%-include('../rodapeadmin.ejs')%>

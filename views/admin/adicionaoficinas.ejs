@@ -1,21 +1,32 @@
 <%-include('../cabecalhoadmin.ejs')%>
 <div class="container py-5 text-justify">
-    <h1 class="py-2 text-center">Adicionar Oficinas</h1>
-    <form>
+    <h1 class="py-2 text-center">Adicionar Oficina</h1>
+    <form method="post">
         <div class="form-group">
             <label for="inputnome">Nome</label>
-            <input type="text" name="nome" class="form-control" id="inputnome" placeholder="Digite seu nome.">
+            <input type="text" name="nome" class="form-control" id="inputnome" placeholder="Digite o nome da oficina.">
         </div>
         <div class="form-group">
-            <label for="inputemail">Email</label>
-            <input type="email" name="email" class="form-control" id="inputemail"
-                placeholder="Digite o seu email no formato: email@email.com">
+            <label for="inputemail">Data</label>
+            <input type="datetime-local" name="data" class="form-control" id="inputemail"
+                placeholder="Digite o dia da Oficina!">
+        </div>
+        <div class="form-group">
+            <label for="inputnome">Ministrante</label>
+            <input type="text" name="ministrante" class="form-control" id="inputnome" placeholder="Digite o nome do Ministrante.">
+        </div>
+        <div class="form-group">
+            <label for="iEmail">Ordem</label>
+            <input type="number" name="ordem" class="form-control" id="iEmail"
+                    aria-describedby="emailHelp" placeholder="Coloque a ordem da Oficina.">
+            <small id="emailHelp" class="form-text text-muted">Coloque o mesmo valor de ordem de oficinas que acontecem no mesmo horário para evitar que alunos se inscrevam mais de uma oficina no mesmo horário.</small>
+        </div>
+        <div class="form-group">
+            <label for="iEmail">Vagas</label>
+            <input type="number" name="vagas" class="form-control" id="iEmail"
+                    aria-describedby="emailHelp" placeholder="Coloque a ordem da Oficina.">
         </div>
 
-        <div class="form-group">
-            <label for="inputtexto">Comentário</label>
-            <textarea class="form-control" name="texto" id="inputtexto" rows="5"></textarea>
-        </div>
         <button type="submit" class="btn btn-primary mb-2">Enviar</button>
     </form>
 </div>

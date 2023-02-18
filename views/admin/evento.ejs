@@ -1,0 +1,79 @@
+<%-include('../cabecalhoadmin.ejs')%>
+<div class="container py-5 text-justify">
+    <h1 class="py-2 text-center">Inscrição no evento</h1>
+
+    <h4>Olá <%=Usuario.nome%>,</h4>
+    <h4 class="py-3">Para realizar a inscrição em um evento você deve escolher o evento e clicar em inscrever-se.</h4>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="inputnome">Evento</label>
+            <select class="form-select" name="evento" aria-label="Default select example">
+                <%Eventos.forEach((evento)=>{%>
+                    <% var eventoJaExiste = false; %>
+                    <% MeusEventos.forEach((evento1)=>{%>
+                        <% if (evento.nome === evento1.nome) { %>
+                            <% eventoJaExiste = true; %>
+                        <% } %>
+                    <%})%>
+                    <% if (eventoJaExiste) { %>
+                        <option value="<%=evento._id%>" disabled><%=evento.nome%> (Você já esta escrito neste evento)</option>
+                    <% } else { %>
+                        <option value="<%=evento._id%>"><%=evento.nome%></option>
+                    <% } %>
+                <%})%>
+            </select>
+        </div> 
+        <button type="submit" class="btn btn-primary mb-2">Inscrever-se</button>
+    </form>
+
+
+    <h5>Eventos que você esta inscrito.</h5>
+
+    <%if(MeusEventos.length==0){%>
+        <div class="alert alert-danger mt-2 py-2" role="alert">
+            Você não esta inscrito em nenhum evento.
+        </div>
+    <%}else{%>
+    <table class="table">
+        <thead class="thead-dark">
+            <th>Nome</th>
+            <th>Data</th>
+            <th>Ativo</th>
+        </thead>
+        
+        <tbody>
+            <%MeusEventos.forEach((evento)=>{%>
+            <tr>
+                <td><%=evento.nome%></td>
+                <td><%=moment(evento.data).format('DD/MM/YYYY') %></td>
+                <td>
+                    <%if(evento.ativo){%>
+                    <span class="material-symbols-outlined">
+                        done
+                    </span>
+                    <%}else{%>
+                    <span class="material-symbols-outlined">
+                        dangerous
+                    </span>
+                    <%}%>                                
+                </td>                               
+            </tr>
+            <%})%>
+        </tbody>
+    </table>
+    <%}%>
+
+    <% if(typeof msg !== "undefined"){ %>
+    <div class="alert alert-danger mt-2 py-2" role="alert">
+        <%=msg%>
+    </div>
+    <% } %>
+    <% if(typeof msgok !== "undefined"){ %>
+    <div class="alert alert-primary mt-2 py-2" role="alert">
+        <%=msgok%>
+    </div>
+    <% } %>
+
+</div>
+<%-include('../rodapeadmin.ejs')%>
