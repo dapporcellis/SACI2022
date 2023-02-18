@@ -29,7 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({
     extended: true
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
