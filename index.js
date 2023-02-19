@@ -38,4 +38,6 @@ app.use(flash());
 app.use(routes)
 app.use(adminroutes)
 
-app.listen(port, function () {console.log('listening on port')})
+app.listen(port, function () {
+    console.log('listening on port')
+})
