@@ -4,7 +4,6 @@ const Usuario = require('../model/usuario')
 
 async function login(req, res) {
     const eventos = await Evento.find({ inscritos: { $in: [req.user.id] }, ativo: true });
-    console.log(eventos.length)
     const oficinas = await Oficina.find({ inscritos: { $in: [req.user.id] }, ativo: true });
     res.render('admin/login', {
         Usuario: req.user,
