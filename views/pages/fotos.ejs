@@ -1,44 +1,16 @@
 <%-include('../cabecalho.ejs')%>
 
 <div class="container py-5 text-justify">
-        <h1 class="py-2 text-center">Organização</h1>
+        <h1 class="py-2 text-center">Fotos</h1>
         <div class="card-columns">
+                <%Fotos.forEach(function(foto){%>
                 <div class="card">
-                        <img class="card-img-top" src="/img/saci.png" alt="Card image cap">
+                        <img class="card-img-top" src="<%=foto.foto%>" alt="Card image cap">
                         <div class="card-body">
-                                <p class="card-text">Foto 1.</p>
+                                <p class="card-text"><%=foto.titulo%> em <%=moment(foto.data).format('DD/MM/YYYY') %></p>
                         </div>
                 </div>
-                <div class="card">
-                        <img class="card-img-top" src="/img/saci.png" alt="Card image cap">
-                        <div class="card-body">
-                                <p class="card-text">Foto 1.</p>
-                        </div>
-                </div>
-                <div class="card">
-                        <img class="card-img-top" src="/img/saci.png" alt="Card image cap">
-                        <div class="card-body">
-                                <p class="card-text">Foto 1.</p>
-                        </div>
-                </div>
-                <div class="card">
-                        <img class="card-img-top" src="/img/saci.png" alt="Card image cap">
-                        <div class="card-body">
-                                <p class="card-text">Foto 1.</p>
-                        </div>
-                </div>
-                <div class="card">
-                        <img class="card-img-top" src="/img/saci.png" alt="Card image cap">
-                        <div class="card-body">
-                                <p class="card-text">Foto 1.</p>
-                        </div>
-                </div>
-                <div class="card">
-                        <img class="card-img-top" src="/img/saci.png" alt="Card image cap">
-                        <div class="card-body">
-                                <p class="card-text">Foto 1.</p>
-                        </div>
-                </div>
+                <%})%>
         </div>
 </div>
 

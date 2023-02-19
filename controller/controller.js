@@ -1,4 +1,6 @@
 const Inscrito = require("../model/usuario")
+const Noticia = require("../model/noticia")
+const Foto = require("../model/foto")
 const bcrypt = require("bcrypt")
 
 async function index(req, res) {
@@ -41,7 +43,8 @@ async function contato(req, res) {
 }
 
 async function fotos(req, res) {
-    res.render('pages/fotos')
+    const fotos = await Foto.find({})
+    res.render('pages/fotos', {Fotos: fotos})
 }
 
 async function local(req, res) {
@@ -49,7 +52,8 @@ async function local(req, res) {
 }
 
 async function noticias(req, res) {
-    res.render('pages/noticias')
+    const noticias = await Noticia.find({})
+    res.render('pages/noticias', {Noticias:noticias})
 }
 
 async function organizacao(req, res) {

@@ -1,6 +1,8 @@
 const Evento = require('../model/evento')
 const Oficina = require('../model/oficina')
 const Usuario = require('../model/usuario')
+const Noticia = require('../model/noticia')
+const Foto = require('../model/foto')
 
 async function login(req, res) {
     const eventos = await Evento.find({ inscritos: { $in: [req.user.id] }, ativo: true });
@@ -85,54 +87,86 @@ async function deletaoficinas(req, res) {
 
 //NOTICIA
 
-
-async function adicionafotos(req, res) {
-    res.render('admin/adicionafotos', {
-        Usuario: req.user
-    })
-}
-
-async function adicionafotos1(req, res) {
-    res.render('admin/adicionafotos', {
-        Usuario: req.user
-    })
-}
-
-async function listafotos(req, res) {
-    res.render('admin/listafotos', {
-        Usuario: req.user
-    })
-}
-
-async function deletafotos(req, res) {
-    res.render('admin/listafotos', {
-        Usuario: req.user
-    })
-}
-
 async function adicionanoticias(req, res) {
     res.render('admin/adicionanoticias', {
-        Usuario: req.user
+        Usuario: req.user,
+        msg: req.flash('msg'),
+        msgok: req.flash('ok')
     })
 }
 
 async function adicionanoticias1(req, res) {
+    const noticia = await Noticia.create({
+        nome: req.body.titulo,
+        data: req.body.data,
+        texto: req.body.texto,
+        foto: req.file.path
+    })
+    req.flash('ok', 'Notícia adicionada com sucesso.')
     res.render('admin/adicionanoticias', {
-        Usuario: req.user
+        Usuario: req.user,
+        msg: req.flash('msg'),
+        msgok: req.flash('ok')
     })
 }
 
 async function listanoticias(req, res) {
+    const noticias = await Noticia.find({})
     res.render('admin/listanoticias', {
-        Usuario: req.user
+        Usuario: req.user,
+        Noticias: noticias,
+        msg: req.flash('msg'),
+        msgok: req.flash('ok')
     })
 }
 
 async function deletanoticias(req, res) {
-    res.render('admin/listanoticias', {
-        Usuario: req.user
+    await Noticia.findByIdAndDelete(req.params.id, function (err, noticia) {
+        req.flash('ok', 'Noticia deletada com sucesso')
+        res.redirect('/listanoticias')
     })
 }
+
+//FOTO
+async function adicionafotos(req, res) {
+    res.render('admin/adicionafotos', {
+        Usuario: req.user,
+        msg: req.flash('msg'),
+        msgok: req.flash('ok')
+    })
+}
+
+async function adicionafotos1(req, res) {
+    const foto = await Foto.create({
+        titulo: req.body.titulo,
+        data: req.body.data,
+        foto: req.file.path
+    })
+    req.flash('ok', 'Foto adicionada com sucesso.')
+    res.render('admin/adicionafotos', {
+        Usuario: req.user,
+        msg: req.flash('msg'),
+        msgok: req.flash('ok')
+    })
+}
+
+async function listafotos(req, res) {
+    const fotos = await Foto.find({})
+    res.render('admin/listafotos', {
+        Usuario: req.user,
+        Fotos: fotos,
+        msg: req.flash('msg'),
+        msgok: req.flash('ok')
+    })
+}
+
+async function deletafotos(req, res) {
+    await Foto.findByIdAndDelete(req.params.id, function (err, foto) {
+        req.flash('ok', 'Noticia deletada com sucesso')
+        res.redirect('/listafotos')
+    })
+}
+
 
 async function certificados(req, res) {
     res.render('admin/certificados', {

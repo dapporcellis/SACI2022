@@ -3,18 +3,19 @@ const routes = express.Router();
 const autenticacao = require('../config/autenticacao'); 
 const autenticacaoadmin = require('../config/autenticacao'); 
 const admincontroller = require('../controller/admincontroller')
+const upload = require('../config/upload');
 
 routes.get('/login', autenticacao, admincontroller.login)
 routes.get('/logout', autenticacao, admincontroller.logout)
 
 routes.get('/adicionafotos', autenticacaoadmin, admincontroller.adicionafotos)
-routes.post('/adicionafotos', autenticacaoadmin, admincontroller.adicionafotos1)
+routes.post('/adicionafotos', autenticacaoadmin,upload.single('foto'), admincontroller.adicionafotos1)
 routes.get('/listafotos', autenticacaoadmin, admincontroller.listafotos)
 routes.get('/deletarfotos/:id', autenticacaoadmin, admincontroller.deletafotos)
 
 
 routes.get('/adicionanoticias', autenticacaoadmin, admincontroller.adicionanoticias)
-routes.post('/adicionanoticias', autenticacaoadmin, admincontroller.adicionanoticias1)
+routes.post('/adicionanoticias', autenticacaoadmin,upload.single('foto'), admincontroller.adicionanoticias1)
 routes.get('/listanoticias', autenticacaoadmin, admincontroller.listanoticias)
 routes.get('/deletanoticias/:id', autenticacaoadmin, admincontroller.deletanoticias)
 
