@@ -1,0 +1,41 @@
+<%-include('../cabecalhoadmin.ejs')%>
+<div class="container py-5 text-justify">
+        <h1 class="py-2 text-center">Lista de Inscritos no evento</h1>
+
+        <h4><%=Evento.nome%></h4>
+
+        <table class="table">
+                <thead class="thead-dark">
+                        <th>Nome</th>
+                        <th>Deletar</th>
+                </thead>
+
+                <tbody>
+                        <%Usuarios.forEach((usuario)=>{%>
+                        <tr>
+                                <td><%=usuario.nome%></td>                                
+                                <td>
+                                        <a href="/deletausuario/<%=usuario._id%>">
+                                                <span class="material-symbols-outlined">
+                                                        delete
+                                                </span>
+                                        </a>
+                                </td>
+                        </tr>
+                        <%})%>
+                </tbody>
+        </table>
+
+        <% if(typeof msg !== "undefined"){ %>
+        <div class="alert alert-danger mt-2 py-2" role="alert">
+                <%=msg%>
+        </div>
+        <% } %>
+        <% if(typeof msgok !== "undefined"){ %>
+        <div class="alert alert-primary mt-2 py-2" role="alert">
+                <%=msgok%>
+        </div>
+        <% } %>
+
+</div>
+<%-include('../rodapeadmin.ejs')%>

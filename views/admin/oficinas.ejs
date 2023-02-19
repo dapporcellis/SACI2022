@@ -1,22 +1,81 @@
 <%-include('../cabecalhoadmin.ejs')%>
 <div class="container py-5 text-justify">
-    <h1 class="py-2 text-center">Inscrição nas Oficinas</h1>
-    <form>
-        <div class="form-group">
-            <label for="inputnome">Nome</label>
-            <input type="text" name="nome" class="form-control" id="inputnome" placeholder="Digite seu nome.">
-        </div>
-        <div class="form-group">
-            <label for="inputemail">Email</label>
-            <input type="email" name="email" class="form-control" id="inputemail"
-                placeholder="Digite o seu email no formato: email@email.com">
-        </div>
+    <h1 class="py-2 text-center">Inscrição em oficinas</h1>
 
+    <h4>Olá <%=Usuario.nome%>,</h4>
+    <h4 class="py-3">Para realizar a inscrição em uma oficina você deve escolher as oficinas e clicar em inscrever-se.</h4>
+
+    <form method="post">
         <div class="form-group">
-            <label for="inputtexto">Comentário</label>
-            <textarea class="form-control" name="texto" id="inputtexto" rows="5"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary mb-2">Enviar</button>
+            <label for="inputnome">Oficinas</label>
+            <select class="form-select" name="oficina" aria-label="Default select example">
+                <%Oficinas.forEach((oficina)=>{%>
+                    <% var oficinaJaExiste = false; %>
+                    <% MinhasOficinas.forEach((oficina1)=>{%>
+                        <% if (oficina.nome === oficina1.nome || oficina.ordem == oficina1.ordem) { %>
+                            <% oficinaJaExiste = true; %>
+                        <% } %>
+                    <%})%>
+                    <% if (oficinaJaExiste) { %>
+                        <option value="<%=oficina._id%>" disabled>Oficina: <%=moment(oficina.data).format('DD/MM/YYYY HH:mm') %> - <%=oficina.nome%> por <%=oficina.ministrante%> (Você já esta inscrito nesta oficina ou em uma outra no mesmo horário)</option>
+                    <% } else { %>
+                        <option value="<%=oficina._id%>">Oficina: <%=moment(oficina.data).format('DD/MM/YYYY HH:mm') %> - <%=oficina.nome%> por <%=oficina.ministrante%></option>
+                    <% } %>
+                <%})%>
+            </select>
+        </div> 
+        <button type="submit" class="btn btn-primary mb-2">Inscrever-se</button>
     </form>
+
+
+    <h5>Oficinas que você esta inscrito.</h5>
+
+    <%if(MinhasOficinas.length==0){%>
+        <div class="alert alert-danger mt-2 py-2" role="alert">
+            Você não esta inscrito em nenhuma oficina.
+        </div>
+    <%}else{%>
+    <table class="table">
+        <thead class="thead-dark">
+            <th>Nome</th>
+            <th>Ministrante</th>
+            <th>Data</th>
+            <th>Ativo</th>
+        </thead>
+        
+        <tbody>
+            <%MinhasOficinas.forEach((oficina)=>{%>
+            <tr>
+                <td><%=oficina.nome%></td>
+                <td><%=oficina.ministrante%></td>
+                <td><%=moment(oficina.data).format('DD/MM/YYYY HH:mm') %></td>
+                <td>
+                    <%if(oficina.ativo){%>
+                    <span class="material-symbols-outlined">
+                        done
+                    </span>
+                    <%}else{%>
+                    <span class="material-symbols-outlined">
+                        dangerous
+                    </span>
+                    <%}%>                                
+                </td>                               
+            </tr>
+            <%})%>
+        </tbody>
+    </table>
+    <%}%>
+
+    <% if(typeof msg !== "undefined"){ %>
+    <div class="alert alert-danger mt-2 py-2" role="alert">
+        <%=msg%>
+    </div>
+    <% } %>
+    <% if(typeof msgok !== "undefined"){ %>
+    <div class="alert alert-primary mt-2 py-2" role="alert">
+        <%=msgok%>
+    </div>
+    <% } %>
+
 </div>
 <%-include('../rodapeadmin.ejs')%>

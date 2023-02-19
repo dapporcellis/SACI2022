@@ -10,6 +10,10 @@ const inscritoSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'evento'
     }],
+    oficinas:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'oficina'
+    }],
 });
 
 const inscrito = mongoose.model('inscrito', inscritoSchema);

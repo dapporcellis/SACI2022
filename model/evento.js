@@ -11,7 +11,7 @@ const eventoSchema = new mongoose.Schema({
     },
     inscritos: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'incrito'
+        ref: 'inscrito'
     }],
     ativo: {
         type: Boolean,

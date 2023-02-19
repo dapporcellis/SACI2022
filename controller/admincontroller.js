@@ -141,10 +141,37 @@ async function certificados(req, res) {
     })
 }
 async function oficinas(req, res) {
+    const oficinas = await Oficina.find({ inscritos: { $in: [req.user.id] } , ativo: true});
+    const oficinas1 = await Oficina.find({ ativo: true, temvaga:true});
+    console.log(oficinas)
+    console.log(oficinas1)
     res.render('admin/oficinas', {
-        Usuario: req.user
+        Usuario: req.user,
+        MinhasOficinas: oficinas,
+        Oficinas: oficinas1
     })
 }
+
+async function inscreveroficina(req, res) {
+    const oficina = await Oficina.findById(req.body.oficina);
+    const usuario = await Usuario.findById(req.user.id);
+
+    // Adiciona o usuário ao array de inscritos do evento
+    oficina.inscritos.push(usuario);
+    await oficina.save(async function (err) {
+        if(err){
+            req.flash('msg','Não há vagas na oficina')
+            res.redirect('/oficinas');
+        }else{
+            // Adiciona o evento ao array de eventos inscritos do usuário
+            usuario.oficinas.push(oficina);
+            await usuario.save();
+            req.flash('msgok','Parabens! Você esta inscrito na oficina')
+            res.redirect('/oficinas');
+        }
+    });
+}
+
 async function evento(req, res) {
     const eventos = await Evento.find({ inscritos: { $in: [req.user.id] } , ativo: true});
     const eventos1 = await Evento.find({ ativo: true});
@@ -171,8 +198,20 @@ async function inscrever(req, res) {
     res.redirect('/evento');
 }
 
+async function listainscritos(req, res) {
+    const oficina = await Oficina.findById(req.params.id).populate('inscritos');
+    res.render('admin/listainscritos',{Usuario: req.user, Usuarios: oficina.inscritos, Oficina:oficina})
+}
+
+async function listainscritosevento(req, res) {
+    const evento = await Evento.findById(req.params.id).populate('inscritos');
+    res.render('admin/listarinscritosevento',{Usuario: req.user, Usuarios: evento.inscritos, Evento:evento})
+}
 
 module.exports = {
+    listainscritosevento,
+    listainscritos,
+    inscreveroficina,
     inscrever,
     login,
     logout,

@@ -7,15 +7,16 @@ const oficinaSchema = new mongoose.Schema({
     ordem: {type:Number,required:true},
     vagas: {type:Number,required:true},
     ativo: {type:Boolean,default:true},
+    temvaga: {type:Boolean,default:true},
     inscritos: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'incrito'
+        ref: 'inscrito'
     }],
 });
 
 oficinaSchema.pre('validate', function(next) {
     if (this.inscritos.length == this.vagas){
-        this.ativo = false;
+        this.temvaga = false;
     }
     next();
 });

@@ -23,17 +23,21 @@ routes.get('/adicionaoficinas', autenticacaoadmin, admincontroller.adicionaofici
 routes.post('/adicionaoficinas', autenticacaoadmin, admincontroller.adicionaoficinas1)
 routes.get('/listaoficinas', autenticacaoadmin, admincontroller.listaoficinas)
 routes.get('/deletaoficinas/:id', autenticacaoadmin, admincontroller.deletaoficinas)
+routes.get('/listarinscritos/:id', autenticacaoadmin, admincontroller.listainscritos)
 
 
 routes.get('/listaevento', autenticacaoadmin, admincontroller.listaevento)
 routes.post('/adicionaevento', autenticacaoadmin, admincontroller.adicionaevento1)
 routes.get('/adicionaevento', autenticacaoadmin, admincontroller.adicionaevento)
 routes.get('/deletaevento/:id', autenticacaoadmin, admincontroller.deletaevento)
-
+routes.get('/listarinscritosevento/:id', autenticacaoadmin, admincontroller.listainscritosevento)
 
 routes.get('/certificados', autenticacaoadmin, admincontroller.certificados)
 routes.get('/oficinas', autenticacao, admincontroller.oficinas)
+routes.post('/oficinas', autenticacao, admincontroller.inscreveroficina)
 routes.get('/evento', autenticacao, admincontroller.evento)
 routes.post('/evento', autenticacao, admincontroller.inscrever)
+
+
 
 module.exports = routes
