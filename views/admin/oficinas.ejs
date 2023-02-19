@@ -11,13 +11,19 @@
             <select class="form-select" name="oficina" aria-label="Default select example">
                 <%Oficinas.forEach((oficina)=>{%>
                     <% var oficinaJaExiste = false; %>
+                    <% var oficinaMesmoHorario = false; %>
                     <% MinhasOficinas.forEach((oficina1)=>{%>
-                        <% if (oficina.nome === oficina1.nome || oficina.ordem == oficina1.ordem) { %>
+                        <% if (oficina.nome === oficina1.nome) { %>
                             <% oficinaJaExiste = true; %>
+                        <% } %>
+                        <% if (oficina.ordem == oficina1.ordem) { %>
+                            <% oficinaMesmoHorario = true; %>
                         <% } %>
                     <%})%>
                     <% if (oficinaJaExiste) { %>
-                        <option value="<%=oficina._id%>" disabled>Oficina: <%=moment(oficina.data).format('DD/MM/YYYY HH:mm') %> - <%=oficina.nome%> por <%=oficina.ministrante%> (Você já esta inscrito nesta oficina ou em uma outra no mesmo horário)</option>
+                        <option value="<%=oficina._id%>" disabled>Oficina: <%=moment(oficina.data).format('DD/MM/YYYY HH:mm') %> - <%=oficina.nome%> por <%=oficina.ministrante%> (Você já esta inscrito nesta oficina.)</option>
+                    <% } else if(oficinaMesmoHorario) { %>
+                        <option value="<%=oficina._id%>" disabled>Oficina: <%=moment(oficina.data).format('DD/MM/YYYY HH:mm') %> - <%=oficina.nome%> por <%=oficina.ministrante%> (Você já esta inscrito numa oficina no mesmo horário.)</option>
                     <% } else { %>
                         <option value="<%=oficina._id%>">Oficina: <%=moment(oficina.data).format('DD/MM/YYYY HH:mm') %> - <%=oficina.nome%> por <%=oficina.ministrante%></option>
                     <% } %>
