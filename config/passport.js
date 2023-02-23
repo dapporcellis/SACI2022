@@ -7,8 +7,9 @@ passport.use(
   new LocalStrategy({
     passReqToCallback: true
   }, async function (req, username, password, cb) {
+    const email = username.toLowerCase()
     var user = await Usuario.findOne({
-      email: username
+      email: email
     })
     if (!user) {
       return cb(null, false, req.flash('msg', 'Usuário não encontrado.'));

@@ -15,11 +15,12 @@ async function cadastrar(req, res) {
 
     const salt = bcrypt.genSaltSync(10);
     const senha = bcrypt.hashSync(req.body.senha, salt);
+    const emailminusculo = req.body.email.toLowerCase();
 
     const inscrito = new Inscrito({
         nome: req.body.nome,
         telefone: req.body.telefone,
-        email: req.body.email,
+        email: emailminusculo,
         senha: senha
     })
     await inscrito.save(function (err, result) {
