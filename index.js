@@ -14,14 +14,17 @@ app.locals.moment = moment;
 const options = {
     table: {
         name: process.env.CYCLIC_DB,
-    }
+    },
+    keepExpired: false, 
+    touchInterval: 30000, // milliseconds (30 seconds)
+    ttl: 86400000 // milliseconds (1 day)
 };
 
 app.use(
     session({
         store: new CyclicSessionStore(options),
         secret: "keyboard cat",
-        //resave: false,
+        resave: false,
         saveUninitialized: false,
     })
 );
