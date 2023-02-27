@@ -7,12 +7,18 @@ var flash = require('req-flash');
 const passport = require("passport");
 var moment = require('moment');
 app.locals.moment = moment;
+const cookieParser = require("cookie-parser");
 
+const oneDay = 1000 * 60 * 60 * 24;
+app.use(cookieParser());
 
 app.use(
     session({
         secret: "keyboard cat",
         resave: false,
+        cookie: {
+            maxAge: oneDay
+        },
         saveUninitialized: false,
     })
 );
