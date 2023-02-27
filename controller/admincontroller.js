@@ -176,8 +176,6 @@ async function certificados(req, res) {
 async function oficinas(req, res) {
     const oficinas = await Oficina.find({ inscritos: { $in: [req.user.id] } , ativo: true});
     const oficinas1 = await Oficina.find({ ativo: true, temvaga:true});
-    console.log(oficinas)
-    console.log(oficinas1)
     res.render('admin/oficinas', {
         Usuario: req.user,
         MinhasOficinas: oficinas,
@@ -224,7 +222,12 @@ async function inscrever(req, res) {
     await evento.save();
 
     // Adiciona o evento ao array de eventos inscritos do usuário
-    usuario.eventos.push(evento);
+    if(usuario.eventos){
+        usuario.eventos.push(evento);
+    }else{
+        usuario.eventos = [evento];
+    }
+    
     await usuario.save();
 
     req.flash('msgok','Parabens! Você esta inscrito no evento')

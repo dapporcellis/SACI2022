@@ -6,12 +6,22 @@ var session = require('express-session');
 var flash = require('req-flash');
 const passport = require("passport");
 var moment = require('moment');
+const {
+    CyclicSessionStore
+} = require("@cyclic.sh/session-store");
 app.locals.moment = moment;
+
+const options = {
+    table: {
+        name: process.env.CYCLIC_DB,
+    }
+};
 
 app.use(
     session({
+        store: new CyclicSessionStore(options),
         secret: "keyboard cat",
-        resave: false,
+        //resave: false,
         saveUninitialized: false,
     })
 );

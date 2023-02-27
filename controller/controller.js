@@ -33,8 +33,10 @@ async function cadastrar(req, res) {
                 res.redirect('/cadastro')
             }
         }else{
-            req.flash('ok', "Cadastrado com sucesso.")
-            res.redirect('/inscricao')
+            req.login({ emailminusculo, senha }, function(err) {
+                return res.redirect('/evento');
+            });
+
         }
     })    
 }
